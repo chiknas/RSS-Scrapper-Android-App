@@ -24,9 +24,7 @@ public class FeedAdapter extends RecyclerView.Adapter<EntryViewHolder> {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.feed_entry_view, parent, false);
 
-        final EntryViewHolder entryViewHolder = new EntryViewHolder(v);
-
-        return entryViewHolder;
+        return new EntryViewHolder(v);
     }
 
     @Override

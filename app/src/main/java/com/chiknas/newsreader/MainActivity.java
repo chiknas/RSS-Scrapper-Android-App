@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import com.chiknas.newsreader.adapters.FeedAdapter;
 import com.chiknas.newsreader.adapters.FeedEntryClickListener;
@@ -25,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements FeedEntryClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
 
         recyclerView = findViewById(R.id.feedScroller);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -61,5 +66,30 @@ public class MainActivity extends AppCompatActivity implements FeedEntryClickLis
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
             }
         };
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.action_refresh:
+                startFeedService();
+
+            case R.id.action_settings:
+                //nothing there yet
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
