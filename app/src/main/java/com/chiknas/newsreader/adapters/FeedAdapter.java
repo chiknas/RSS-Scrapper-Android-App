@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import com.chiknas.newsreader.R;
 import com.rometools.rome.feed.synd.SyndEntry;
 
@@ -15,25 +14,36 @@ import java.util.List;
 /**
  * created by NikosK on 12/7/2019
  */
-public class FeedAdapter extends RecyclerView.Adapter<ViewHolder> {
+public class FeedAdapter extends RecyclerView.Adapter<EntryViewHolder> {
+    FeedEntryClickListener entryClickListener;
     private List<SyndEntry> entries = new ArrayList<>();
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // create a new view
+    public EntryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.feed_entry_view, parent, false);
 
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+        final EntryViewHolder entryViewHolder = new EntryViewHolder(v);
+
+        return entryViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final EntryViewHolder holder, int position) {
         SyndEntry syndEntry = entries.get(position);
-        holder.title.setText(syndEntry.getTitle());
-        holder.description.setText(syndEntry.getDescription().getValue());
+        holder.getTitle().setClickable(true);
+        holder.getTitle().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.getDescription().setVisibility(holder.getDescription().getVisibility() > View.VISIBLE
+                        ? View.VISIBLE
+                        : View.GONE);
+            }
+        });
+        holder.getTitle().setText(syndEntry.getTitle());
+        holder.getDescription().setText(syndEntry.getDescription().getValue());
+        holder.getItemView().setOnClickListener(entryClickListener.onFeedEntryClick(syndEntry.getUri()));
     }
 
     @Override
@@ -41,21 +51,10 @@ public class FeedAdapter extends RecyclerView.Adapter<ViewHolder> {
         return entries.size();
     }
 
-    public void setDataset(List<SyndEntry> entries) {
+    public void setDataset(List<SyndEntry> entries, FeedEntryClickListener entryClickListener) {
         this.entries = entries;
+        this.entryClickListener = entryClickListener;
     }
 
 
-}
-
-class ViewHolder extends RecyclerView.ViewHolder {
-    // each data item is just a string in this case
-    public TextView title;
-    public TextView description;
-
-    public ViewHolder(View itemView) {
-        super(itemView);
-        title = itemView.findViewById(R.id.title);
-        description = itemView.findViewById(R.id.description);
-    }
 }
