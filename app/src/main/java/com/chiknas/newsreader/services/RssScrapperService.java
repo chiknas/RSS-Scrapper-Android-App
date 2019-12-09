@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import com.chiknas.newsreader.NewsSites;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.SyndFeedInput;
@@ -11,6 +12,8 @@ import com.rometools.rome.io.XmlReader;
 
 import java.io.Serializable;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 /**
@@ -28,13 +31,15 @@ public class RssScrapperService extends IntentService {
         super(TAG);
     }
 
-    //TODO modify to return feeds from multiple sites that the user sets in settings
-    public void romeTest(PendingIntent pendingIntent) {
+    public void getAllFeedEntries(PendingIntent pendingIntent) {
         try {
-            URL feedSource = new URL("https://www.kathimerini.gr/rss");
-            SyndFeedInput input = new SyndFeedInput();
-            SyndFeed feed = input.build(new XmlReader(feedSource));
-            List<SyndEntry> entries = feed.getEntries();
+            List<SyndEntry> entries = new ArrayList<>();
+            for (NewsSites site : EnumSet.allOf(NewsSites.class)) {
+                SyndFeed feed = getFeed(site.getFeedUrl());
+                if (feed != null) {
+                    entries.addAll(feed.getEntries());
+                }
+            }
             Intent intent = new Intent();
             intent.putExtra(RSS_RESULT_EXTRA, (Serializable) entries);
 
@@ -44,8 +49,20 @@ public class RssScrapperService extends IntentService {
         }
     }
 
+    private SyndFeed getFeed(String url) {
+        SyndFeed result = null;
+        try {
+            URL feedSource = new URL(url);
+            SyndFeedInput input = new SyndFeedInput();
+            result = input.build(new XmlReader(feedSource));
+        } catch (Exception e) {
+
+        }
+        return result;
+    }
+
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        romeTest((PendingIntent) intent.getParcelableExtra(PENDING_RESULT_EXTRA));
+        getAllFeedEntries((PendingIntent) intent.getParcelableExtra(PENDING_RESULT_EXTRA));
     }
 }

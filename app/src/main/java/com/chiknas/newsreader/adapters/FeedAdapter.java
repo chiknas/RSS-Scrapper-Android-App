@@ -41,7 +41,7 @@ public class FeedAdapter extends RecyclerView.Adapter<EntryViewHolder> {
         });
         holder.getTitle().setText(syndEntry.getTitle());
         holder.getDescription().setText(syndEntry.getDescription().getValue());
-        holder.getItemView().setOnClickListener(entryClickListener.onFeedEntryClick(syndEntry.getUri()));
+        holder.getItemView().setOnClickListener(entryClickListener.onFeedEntryClick(syndEntry.getLink()));
     }
 
     @Override
@@ -53,6 +53,4 @@ public class FeedAdapter extends RecyclerView.Adapter<EntryViewHolder> {
         this.entries = entries;
         this.entryClickListener = entryClickListener;
     }
-
-
 }
