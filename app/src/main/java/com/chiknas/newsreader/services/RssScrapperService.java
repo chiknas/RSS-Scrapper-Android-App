@@ -28,6 +28,7 @@ public class RssScrapperService extends IntentService {
         super(TAG);
     }
 
+    //TODO modify to return feeds from multiple sites that the user sets in settings
     public void romeTest(PendingIntent pendingIntent) {
         try {
             URL feedSource = new URL("https://www.kathimerini.gr/rss");
@@ -45,7 +46,6 @@ public class RssScrapperService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        //printMessage((PendingIntent) intent.getParcelableExtra(PENDING_RESULT_EXTRA));
         romeTest((PendingIntent) intent.getParcelableExtra(PENDING_RESULT_EXTRA));
     }
 }

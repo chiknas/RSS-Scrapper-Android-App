@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements FeedEntryClickLis
                 startFeedService();
 
             case R.id.action_settings:
-                //nothing there yet
+                startActivity(new Intent(this, SettingsActivity.class));
         }
 
         return super.onOptionsItemSelected(item);
