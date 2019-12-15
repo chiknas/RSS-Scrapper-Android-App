@@ -10,6 +10,7 @@ import com.chiknas.newsreader.R;
  */
 public class EntryViewHolder extends RecyclerView.ViewHolder {
     private TextView title;
+    private TextView site;
     private TextView description;
     private View itemView;
 
@@ -17,11 +18,16 @@ public class EntryViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         this.itemView = itemView;
         this.title = itemView.findViewById(R.id.title);
+        this.site = itemView.findViewById(R.id.site);
         this.description = itemView.findViewById(R.id.description);
     }
 
     public TextView getTitle() {
         return title;
+    }
+
+    public TextView getSite() {
+        return site;
     }
 
     public TextView getDescription() {

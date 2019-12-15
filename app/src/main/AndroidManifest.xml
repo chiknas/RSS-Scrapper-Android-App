@@ -12,11 +12,11 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-                android:name=".SettingsActivity"
+                android:name=".activities.SettingsActivity"
                 android:configChanges="orientation|screenSize">
         </activity>
         <activity
-                android:name=".MainActivity"
+                android:name=".activities.MainActivity"
                 android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

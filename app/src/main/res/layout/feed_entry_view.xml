@@ -16,6 +16,9 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
         <TextView
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/site"/>
+        <TextView
+                android:layout_width="match_parent"
                 android:visibility="gone"
                 android:paddingBottom="10dp"
                 android:layout_height="wrap_content" android:id="@+id/description"/>

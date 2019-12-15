@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import com.chiknas.newsreader.NewsSites;
+import com.chiknas.newsreader.util.FeedEntriesComparator;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.SyndFeedInput;
@@ -22,7 +23,7 @@ import java.util.List;
 public class RssScrapperService extends IntentService {
 
     public static final String PENDING_RESULT_EXTRA = "pending_result";
-    public static final String RSS_RESULT_EXTRA = "url";
+    public static final String RSS_SORTED_BY_DATE = "url";
     public static final int RESULT_CODE = 0;
     public static final int ERROR_CODE = 1;
     private static final String TAG = RssScrapperService.class.getSimpleName();
@@ -40,9 +41,10 @@ public class RssScrapperService extends IntentService {
                     entries.addAll(feed.getEntries());
                 }
             }
-            Intent intent = new Intent();
-            intent.putExtra(RSS_RESULT_EXTRA, (Serializable) entries);
+            entries.sort(new FeedEntriesComparator());
 
+            Intent intent = new Intent();
+            intent.putExtra(RSS_SORTED_BY_DATE, (Serializable) entries);
             pendingIntent.send(this, RESULT_CODE, intent);
         } catch (Exception e) {
 

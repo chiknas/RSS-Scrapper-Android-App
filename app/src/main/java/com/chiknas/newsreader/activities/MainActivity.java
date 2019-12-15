@@ -1,4 +1,4 @@
-package com.chiknas.newsreader;
+package com.chiknas.newsreader.activities;
 
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import com.chiknas.newsreader.R;
 import com.chiknas.newsreader.adapters.FeedAdapter;
 import com.chiknas.newsreader.adapters.FeedEntryClickListener;
 import com.chiknas.newsreader.services.RssScrapperService;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements FeedEntryClickLis
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (resultCode) {
             case RssScrapperService.RESULT_CODE:
-                List<SyndEntry> entries = (List<SyndEntry>) data.getSerializableExtra(RssScrapperService.RSS_RESULT_EXTRA);
+                List<SyndEntry> entries = (List<SyndEntry>) data.getSerializableExtra(RssScrapperService.RSS_SORTED_BY_DATE);
                 ((FeedAdapter) recyclerView.getAdapter()).setDataset(entries, this);
                 recyclerView.getAdapter().notifyDataSetChanged();
             case RssScrapperService.ERROR_CODE:
@@ -85,9 +86,11 @@ public class MainActivity extends AppCompatActivity implements FeedEntryClickLis
         switch (id) {
             case R.id.action_refresh:
                 startFeedService();
+                break;
 
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
+                break;
         }
 
         return super.onOptionsItemSelected(item);

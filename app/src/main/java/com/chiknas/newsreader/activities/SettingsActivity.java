@@ -1,8 +1,9 @@
-package com.chiknas.newsreader;
+package com.chiknas.newsreader.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import com.chiknas.newsreader.R;
 
 public class SettingsActivity extends AppCompatActivity {
 

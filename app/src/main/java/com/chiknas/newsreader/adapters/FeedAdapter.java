@@ -40,6 +40,7 @@ public class FeedAdapter extends RecyclerView.Adapter<EntryViewHolder> {
             }
         });
         holder.getTitle().setText(syndEntry.getTitle());
+        holder.getSite().setText(syndEntry.getAuthor());
         holder.getDescription().setText(syndEntry.getDescription().getValue());
         holder.getItemView().setOnClickListener(entryClickListener.onFeedEntryClick(syndEntry.getLink()));
     }

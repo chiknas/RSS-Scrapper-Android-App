@@ -5,6 +5,7 @@ package com.chiknas.newsreader;
  */
 public enum NewsSites {
     KATHIMERINI_MAIN("https://www.kathimerini.gr/rss"),
+    NEWSBEAST_GREEK_ECONOMY("https://www.newsbeast.gr/financial/feed"),
     KATHIMERINI_GREEK_ECONOMY("https://www.kathimerini.gr/rss?i=news.el.ellhnikh-oikonomia"),
     KATHIMERINI_GREEK_REAL_ESTATE("https://www.kathimerini.gr/rss?i=news.el.realestate"),
     TOVIMA_GREEK_ECONOMY("https://www.tovima.gr/category/finance/feed/");
