@@ -1,4 +1,4 @@
-package com.chiknas.newsreader.adapters;
+package com.chiknas.newsreader.adapters.feedadapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;

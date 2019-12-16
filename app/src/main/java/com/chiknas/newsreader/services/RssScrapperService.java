@@ -3,8 +3,9 @@ package com.chiknas.newsreader.services;
 import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import com.chiknas.newsreader.NewsSites;
+import com.chiknas.newsreader.NewsSite;
 import com.chiknas.newsreader.util.FeedEntriesComparator;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
@@ -35,8 +36,8 @@ public class RssScrapperService extends IntentService {
     public void getAllFeedEntries(PendingIntent pendingIntent) {
         try {
             List<SyndEntry> entries = new ArrayList<>();
-            for (NewsSites site : EnumSet.allOf(NewsSites.class)) {
-                SyndFeed feed = getFeed(site.getFeedUrl());
+            for (NewsSite site : EnumSet.allOf(NewsSite.class)) {
+                SyndFeed feed = getFeed(site);
                 if (feed != null) {
                     entries.addAll(feed.getEntries());
                 }
@@ -51,20 +52,26 @@ public class RssScrapperService extends IntentService {
         }
     }
 
-    private SyndFeed getFeed(String url) {
-        SyndFeed result = null;
-        try {
-            URL feedSource = new URL(url);
-            SyndFeedInput input = new SyndFeedInput();
-            result = input.build(new XmlReader(feedSource));
-        } catch (Exception e) {
+    private boolean isFeedEnabled(NewsSite newsSite) {
+        return PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(newsSite.name(), false);
+    }
 
+    private SyndFeed getFeed(NewsSite site) {
+        SyndFeed result = null;
+        if (isFeedEnabled(site)) {
+            try {
+                URL feedSource = new URL(site.getFeedUrl());
+                SyndFeedInput input = new SyndFeedInput();
+                result = input.build(new XmlReader(feedSource));
+            } catch (Exception e) {
+
+            }
         }
         return result;
     }
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        getAllFeedEntries((PendingIntent) intent.getParcelableExtra(PENDING_RESULT_EXTRA));
+        getAllFeedEntries(intent.getParcelableExtra(PENDING_RESULT_EXTRA));
     }
 }

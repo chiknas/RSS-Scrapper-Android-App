@@ -12,8 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import com.chiknas.newsreader.R;
-import com.chiknas.newsreader.adapters.FeedAdapter;
-import com.chiknas.newsreader.adapters.FeedEntryClickListener;
+import com.chiknas.newsreader.adapters.feedadapter.FeedAdapter;
+import com.chiknas.newsreader.adapters.feedadapter.FeedEntryClickListener;
 import com.chiknas.newsreader.services.RssScrapperService;
 import com.rometools.rome.feed.synd.SyndEntry;
 
@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements FeedEntryClickLis
 
     public static final int RSS_REQUEST_DOWNLOAD_CODE = 99;
 
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
